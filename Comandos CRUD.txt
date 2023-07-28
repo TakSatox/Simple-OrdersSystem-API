@@ -1,0 +1,41 @@
+Comandos CRUD e Específicos.
+
+#Adicionar documento
+db.collection('orders-test-project').add({'product': 'monitor', 'quantity': 1, 'total_amount': 1270.80})
+
+#Atualizar documento
+db.collection('orders-test-project').document('CZoI2WXQ0FWx5EiBgKJy').update({'quantity': 2, 'new': 'novo'})
+
+#Ler um documento
+result = db.collection('orders-test-project').document('CZoI2WXQ0FWx5EiBgKJy').get()
+if result.exists:
+    print(result.to_dict())
+
+#Ler todos os documentos
+docs = db.collection('orders-test-project').get()
+result = []
+[result.append(doc.to_dict()) for doc in docs]
+print(result)
+
+#Ler um documento com query parameter produto
+result = db.collection('orders-test-project').where('product', '==', 'keyboard').get()
+for doc in result:
+    print(doc.to_dict())
+
+#valor
+result = db.collection('orders-test-project').where('total_amount', '==', 340.55).get()
+for doc in result:
+    print(doc.to_dict())
+
+#valorMaiorQue
+result = db.collection('orders-test-project').where('total_amount', '>', 300).get()
+for doc in result:
+    print(doc.to_dict())
+
+#ValorMenorQue
+result = db.collection('orders-test-project').where('total_amount', '<', 300).get()
+for doc in result:
+    print(doc.to_dict())
+
+#Deletar um documento
+    #db.collection('orders-test-project').document('CZoI2WXQ0FWx5EiBgKJy').delete()
