@@ -1,10 +1,14 @@
-from main import app
-from fastapi.testclient import TestClient
 import sys
 import os
 
-# Adicione o diretório raiz do projeto ao sys.path
+
+# Adicione o diretório raiz do projeto ao sys.path. Precisa ser adicionado antes de importar o app de main.
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+
+from main import app
+from fastapi.testclient import TestClient
+
 
 client = TestClient(app)
 
