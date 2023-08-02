@@ -1,0 +1,52 @@
+Neste projeto primeiramente utilizei um yaml padrão obtida da documentação do GitHub Actions para aplicação em python.
+
+Para funcionar, é necessário configurar o credential.json que é necessário para ter acesso ao firestore e também o PYTHONPATH para que o módulo main seja reconhecido.
+
+Para utilizar o credential, por se tratar de dados sensíveis, não irei incluir no repositório, ou seja, irei manter no .gitignore. 
+Para de fato conseguir usar ele, primeiro criei um secret no repositório chamado "FIRESTORE_CREDENTIAL" e no valor dele passei o objeto JSON exatamente como ele é no arquivo
+credential.json.
+Em seguida configurei para que fosse criado um arquivo credential.json no env da build no actions como deixa explícito o código abaixo:
+    - name: Create credential directory
+      run: mkdir -p core/credential
+    - name: Set up Firestore credentials
+      env:
+        FIRESTORE_CREDENTIAL: ${{ secrets.FIRESTORE_CREDENTIAL }}
+      run: |
+        echo "$FIRESTORE_CREDENTIAL" > core/credential/credential.json
+
+Primeiramente é criado uma pasta visto que ela não existe por ser ignorada pelo git por fica vazia devido ao credential.json ser ignorado no .gitignore. O git por padrão
+ignora pastas vazias.
+Depois é armazenada na variável FIRESTORE_CREDENTIAL o valor do secret FIRESTORE_CREDENTIAL que está no objeto secrets.
+Por fim é utilizado o comando echo para imprimir o que está na variável FIRESTORE_CREDENTIAL dentro de um novo arquivo json criado no diretório
+core/credential/credential.json.
+Dessa forma, o arquivo database.py que contém as configurações de comunicação com o firestore consegue acessar esse novo credential.json.
+
+
+
+Para adicionar o diretório raiz ao sys.path, usei o código abaixo:
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+
+
+
+
+
+-------
+
+Basicamente no Actions é solicitado no step nomeado "Test with pytest" que seja rodado o pytest (é a mesma coisa de no terminal chamar o pytest)
+    - name: Test with pytest
+      run: |
+        pytest
+
+Esse comando do pytest busca todos os arquivos nomeados com o padrão "test_*", onde no asterisco podemos colocar o nome que quisermos. Esses arquivos também
+precisam estar em uma pasta nomeada 'tests' que por sua vez deve estar no diretório raiz.
+
+Neste projeto irei criar primeiramente um teste para cada método.
+
+
+
+
+
