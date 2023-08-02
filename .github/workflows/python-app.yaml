@@ -29,6 +29,8 @@ jobs:
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Set up Firestore credentials
+      env:
+        FIRESTORE_CREDENTIAL: ${{ secrets.FIRESTORE_CREDENTIAL }}
       run: |
         echo "$FIRESTORE_CREDENTIAL" > credential.json
     - name: Lint with flake8
