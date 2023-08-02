@@ -17,4 +17,4 @@ def post_order(order: OrderSchema):
 
         return new_order
     except:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='The document was not added to the collection')
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="The document wasn't added to the collection")
